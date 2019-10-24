@@ -1,6 +1,7 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { SavvatoJavascriptServicesComponent } from './savvato-javascript-services.component';
-import { DomainObjectMetadataService } from './_services/domain-object-metadata.service'
+
+import { FunctionPromiseService } from './_services/function-promise.service'
 
 @NgModule({
   declarations: [
@@ -17,7 +18,9 @@ export class SavvatoJavascriptServicesModule {
 	static forRoot(): ModuleWithProviders {
 		return {
 			ngModule: SavvatoJavascriptServicesModule,
-			providers: [ DomainObjectMetadataService ]
+			providers: [ 
+        FunctionPromiseService
+      ]
 		}
 	}
 }
