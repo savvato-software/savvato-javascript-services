@@ -17,6 +17,14 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "savvato-javascript-services": [
+        "dist/savvato-javascript-services"
+      ],
+      "savvato-javascript-services/*": [
+        "dist/savvato-javascript-services/*"
+      ]
+    }
   }
 }
