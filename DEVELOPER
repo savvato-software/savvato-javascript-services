@@ -1,4 +1,11 @@
 
-npm install
-ng build savvato-javascript-services
+When creating the deployable, includable version of this project, run 
+
+    npm install
+    ng build <project-name>, 
+
+and then in the resulting ./dist directory, run 
+    ng pack
+    
+It will create a tarball, and you can `npm install` that tarball in the client project. This avoided an Angular, in-browser error about a nullprovider for Injector
 
