@@ -40,7 +40,7 @@ For this component of the project, create a new dev branch.
 Once you have a dev branch you can run the following commands:
 
 
-    npm install
+    npm ci
     ng build savvato-javascript-services
 
 
