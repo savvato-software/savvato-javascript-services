@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 
 // The point of this class is to cache the results of a function that does something.
-//  Then using the cached result over and over, rather than making a new api call, 
+//  Then it uses the cached result over and over, rather than making a new api call, 
 //  a new calculation, etc.
 
-// It takes an ID, the result ID, and maps it to a promise, which is the result
+// It takes an ID (think: the result ID), and maps it to a promise, which is the result
 //  of a function.
 
 // So for instance the result ID could be the user ID, and the function, a call
@@ -23,18 +23,25 @@ export class FunctionPromiseService {
 	results = {};
 	funcs = {};
 
-	freshnessLengthInMillis = 60 * 1000; // thirty seconds
+	freshnessLengthInMillis = 30 * 1000; // thirty seconds
 
 	constructor() {
 
 	}
 
 	reset(resultKey) {
-		console.log("resetting " + resultKey)
 		this.results[resultKey] = undefined;
-		this.promiseCache[resultKey] = undefined;
+		this.promiseCache[resultKey] = { timestamp: undefined, results: undefined };
 	}
 
+	/**
+		Your function must:
+
+			return a promise
+				and that promise must resolve something other than [undefined | null]. If you are trying to respond with [undefined | null],
+				you need to put your response in an object, liked this: {value: undefined}, and return the object. This is because the 
+				FunctionPromiseService takes an undefined to mean your function has not yet completed.	
+	*/
 	initFunc(funcKey, func) {
 		this.funcs[funcKey] = func;
 	}
@@ -43,16 +50,51 @@ export class FunctionPromiseService {
 		this.freshnessLengthInMillis = m;
 	}
 
+	getFreshnessLengthInMillis(data) {
+		if (data && data["freshnessLengthInMillis"])
+			return data["freshnessLengthInMillis"];
+		else
+			return this.freshnessLengthInMillis;
+	}
+
+	/**
+		This method gets the ball rolling. When you call it, it checks to see
+		if a call with this set of parameters has already happened. If so, it
+		returns the result of that previous call. If this is the first time a 
+		call has been made for that set of parameters, this method calls the 
+		promise that represents that function, and then returns undefined. You
+		can call this method again, and it will continue to return undefined
+		until the promise that represents the function returns a value. Then, 
+		this function will return that value, whenever called with that set of 
+		parameters.
+
+		It is designed to be called repeatedly, and to return quickly. If your paradigm
+		doesn't repeatedly call for updated data, then this method is not for 
+		you. In your case, your framework is making one call, and saving the
+		result. So you should call waitAndGet() which will return a promise that
+		resolves to the result of the function call.
+	**/
 	get(resultKey, funcKey, data) {
 		var timestamp = new Date().getTime();
 		let self = this;
 
-		if (this.results[resultKey] !== undefined) {
+		/**
+			You can pass 'freshnessLengthInMillis' in the data object
+			to set a specific limit for this call. So, if the default
+			time is 30 seconds, you can pass in 3000, and this call
+			will be considered stale (and this will recalculate) after
+			three seconds. If you don't pass anything, the default
+			value is used.
+		*/
+
+		let freshnessLength = self.getFreshnessLengthInMillis(data);
+
+		if (self.results[resultKey] !== undefined) {
 			
-			if (this.results[resultKey]["timestamp"] + this.freshnessLengthInMillis < timestamp) {
-				this.reset(resultKey);
+			if (self.results[resultKey]["timestamp"] + freshnessLength < timestamp) {
+				self.reset(resultKey);
 			} else {
-				return this.results[resultKey]["results"];
+				return self.results[resultKey]["results"];
 			}
 		}
 
@@ -75,27 +117,33 @@ export class FunctionPromiseService {
 		let self = this;
 		let prm = undefined;
 
-		prm = self.promiseCache[resultKey];
+		let timestamp = new Date().getTime();
+		let freshnessLength = self.getFreshnessLengthInMillis(data);
 
-		if (!prm) {
-			prm = new Promise((resolve, reject) => {
-				function to() {
-					setTimeout(() => {
-						let result = self.get(resultKey, funcKey, data);
-
-						if (result)
-							resolve(result);
-						else
-							to();
-					}, 500);
-				}
-
-				to();
-			})
-
-			self.promiseCache[resultKey] = prm;
+		if (self.promiseCache[resultKey] && self.promiseCache[resultKey]["timestamp"] !== undefined) {
+			
+			if (self.promiseCache[resultKey]["timestamp"] + freshnessLength < timestamp) {
+				self.reset(resultKey);
+			} else {
+				return self.promiseCache[resultKey]["results"];
+			}
 		}
 
-		return prm;
+		self.promiseCache[resultKey] = {timestamp: new Date().getTime(), results: new Promise((resolve, reject) => {
+			function to() {
+				setTimeout(() => {
+					let result = self.get(resultKey, funcKey, data);
+
+					if (result)
+						resolve(result);
+					else
+						to();
+				}, 500);
+			}
+
+			to();
+		})};
+
+		return self.promiseCache[resultKey]["results"];
 	}
 }
