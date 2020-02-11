@@ -1,7 +1,46 @@
+In order to work on and contribute to this project, you will need to fork all Savvato repositories to your
+github account. You will also need angular-cli, and the ionic framework to be globally installed on your
+system.
 
-When creating the deployable, includable version of this project, run 
+Before cloning your forked copies of the repositories, it would be best to create a bit of file structure.
+Somewhere on your development machine, create a savvato directory. Inside of your savvato directory, create
+a src directory. Inside of your src directory, create a second savvato directory. Inside of that savvato
+directory, create a second src directory. Finally, inside of that src directory, create an angular directory.
+With that accomplished, you should have a file structure that looks like the following:
 
-    npm install
+savvato
+    -src
+        -savvato
+            -src
+                -angular
+
+Inside of the angular directory, clone the savvato-javascript-services and techprofile-component repositories.
+Inside of the top level src directory, clone the dtim-techprofile-api, dtim-mobile, and savvato-techprofile-
+website repositories.
+
+Finally you should have a file stucture like the following:
+
+savvato
+    -src
+        -dtim-mobile
+        -dtim-techprofile-api
+        -savvato
+            -src
+                -angular
+                    -savvato-javascript-services
+                    -techprofile-component
+        -savvato-techprofile-website
+
+In order to get the project running, it is recommended to begin by building the savvato-javascript-services,
+and techprofile-component first, then create your MySQL database, followed by starting up the dtim-techprofile-api,
+and finally serving up the dtim-mobile and/or savvato-techprofile-website. The instructions for the setup of
+these specific parts will be included in each of their DEVELOPER files.
+
+For this component of the project, create a new dev branch.
+Once you have a dev branch you can run the following commands:
+
+
+    npm ci
     ng build savvato-javascript-services
 
 
