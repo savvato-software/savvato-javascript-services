@@ -2,6 +2,7 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { SavvatoJavascriptServicesComponent } from './savvato-javascript-services.component';
 
 import { FunctionPromiseService } from './_services/function-promise.service'
+import { ModelTransformingService } from './_services/model-transforming.service'
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ export class SavvatoJavascriptServicesModule {
 		return {
 			ngModule: SavvatoJavascriptServicesModule,
 			providers: [ 
-        FunctionPromiseService
+        FunctionPromiseService,
+        ModelTransformingService
       ]
 		}
 	}
