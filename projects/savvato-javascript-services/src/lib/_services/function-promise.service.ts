@@ -34,6 +34,10 @@ export class FunctionPromiseService {
 		this.promiseCache[resultKey] = { timestamp: undefined, results: undefined };
 	}
 
+	resetFunc(funcKey) {
+		this.funcs[funcKey] = undefined;
+	}
+
 	/**
 		Your function must:
 
@@ -43,6 +47,9 @@ export class FunctionPromiseService {
 				FunctionPromiseService takes an undefined to mean your function has not yet completed.	
 	*/
 	initFunc(funcKey, func) {
+
+		// TODO: ensure this parameter is actually a function. throw error otherwise. test that behavior
+
 		this.funcs[funcKey] = func;
 	}
 
