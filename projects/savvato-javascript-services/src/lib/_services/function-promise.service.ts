@@ -114,6 +114,8 @@ export class FunctionPromiseService {
 				(result) => { 
 					self.results[resultKey] = {timestamp: new Date().getTime(), results: result}; 
 				})
+		} else {
+			throw new Error("The given function key [" + funcKey + "] does not have a function associated with it.")
 		}
 
 		return self.results[resultKey]["results"];
