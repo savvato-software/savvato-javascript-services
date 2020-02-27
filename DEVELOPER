@@ -37,11 +37,29 @@ and finally serving up the dtim-mobile and/or savvato-techprofile-website. The i
 these specific parts will be included in each of their DEVELOPER files.
 
 For this component of the project, create a new dev branch.
-Once you have a dev branch you can run the following commands:
+You will then need to build a release.
 
 
+BUILDING A RELEASE
+---
+To build this project..
+
+    rm dist/ -rf
     npm ci
     ng build savvato-javascript-services
+    cd dist/savvato-javascript-services
+    npm pack
 
+This will create a file, which you will have to refer to in the package.json of any other project that will make use of savvato-javascript-services. Likely, this is already done for you. If you are just setting up your projects, don't worry about that. However, if you're reading this once you're comfortable with the code, and you've made a change to this repo, then you will need to know about this file, and that you may need to create a new version, and refer to that new version, in the other project. This is to avoid caching issues that prevent you from seeing your changes in the other project.
 
+The file will be named
+    ./savvato-javascript-services/dist/savvato-javascript-services/savvato-javascript-services-0.0.?.tgz
 
+    If it is already depended on by the other project, just change its version number to use your new changes.
+
+    If it is not yet depended on by the other project, run this command to add it as a dependency
+        npm install ./path/to/./savvato-javascript-services/dist/savvato-javascript-services/savvato-javascript-services-0.0.?.tgz
+
+    Notice the question mark in the path, you'd replace it with your version number.
+
+----
