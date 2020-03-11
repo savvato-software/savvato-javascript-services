@@ -67,3 +67,8 @@ The file will be named
     Notice the question mark in the path, you'd replace it with your version number.
 
 ----
+
+Troubleshooting:
+    is the service you added to this library not available in your client?
+        - did you add it to public_api.ts?
+        
