@@ -1,5 +1,5 @@
 {
-  "name": "savvato-javascript-services",
+  "name": "@savvato-software/savvato-javascript-services",
   "version": "0.0.6",
   "peerDependencies": {
     "@angular/common": "^8.2.14",
