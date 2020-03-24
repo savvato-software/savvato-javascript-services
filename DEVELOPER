@@ -44,6 +44,7 @@ BUILDING A RELEASE
 ---
 To build this project..
 
+    # update the PATCH version number. unique version numbers prevent caching issues.
     rm dist/ -rf
     npm ci
     ng build savvato-javascript-services
@@ -52,7 +53,7 @@ To build this project..
 
 Here's that command in one big line, if you're feeling frisky.
 
-    rm dist/ -rf && npm ci && ng build savvato-javascript-services && cd dist/savvato-javascript-services && npm pack && cd -
+    cd projects/savvato-javascript-services/ && npm version patch && cd - && rm dist/ -rf && ng build savvato-javascript-services && cd dist/savvato-javascript-services/ && npm pack && cd - && date
 
 This will create a file, which you will have to refer to in the package.json of any other project that will make use of savvato-javascript-services. Likely, this is already done for you. If you are just setting up your projects, don't worry about that. However, if you're reading this once you're comfortable with the code, and you've made a change to this repo, then you will need to know about this file, and that you may need to create a new version, and refer to that new version, in the other project. This is to avoid caching issues that prevent you from seeing your changes in the other project.
 
