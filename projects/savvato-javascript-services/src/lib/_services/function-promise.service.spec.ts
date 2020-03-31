@@ -41,6 +41,45 @@ describe('FunctionPromise Service', () => {
     expect(offer).toBe(undefined);
   })
 
+  it('should reset only the expected results when called to reset fuzzily', (done) => {
+    
+    // TODO.. couldn't get tests to run when I wrote this. Run it, be sure that it works.
+
+    let service = component.getService();
+
+    let resultKey1 = "resultKey1";
+    let funcKey1 = "funcKey1";
+
+    let resultKey2 = "resultKey2";
+    let funcKey2 = "funcKey2";
+
+    let func1 = (data) => { return new Promise((resolve, reject) => { resolve("func1" + data['val']); })}
+    let func2 = (data) => { return new Promise((resolve, reject) => { resolve("func2" + data['val']); })}
+
+    service.initFunc(funcKey1, func1);
+    service.initFunc(funcKey2, func2);
+
+    let result = undefined;
+
+    service.waitAndGet(resultKey1 + "A", funcKey1, {val: '-1stCall'}).then((result) => {
+      service.waitAndGet(resultKey1 + "B", funcKey1, {val: '-1stCall'}).then((result2) => {
+        service.waitAndGet(resultKey2 + "A", funcKey2, {val: '-1stCall'}).then((result3) => {
+          expect(service.get(resultKey1+"A")).not.toBe(undefined);
+          expect(service.get(resultKey1+"B")).not.toBe(undefined);
+          expect(service.get(resultKey2+"A")).not.toBe(undefined);
+
+          service.resetFuzzily(resultKey1);
+
+          expect(service.get(resultKey1+"A")).toBe(undefined);
+          expect(service.get(resultKey1+"B")).toBe(undefined);
+          expect(service.get(resultKey2+"A")).not.toBe(undefined);
+
+          done();
+        })
+      })
+    })
+  })
+
   xit('calls our given function as expected considering the cache expiration time passing', (done) => {
     let service = component.getService();
 

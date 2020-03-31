@@ -34,6 +34,18 @@ export class FunctionPromiseService {
 		this.promiseCache[resultKey] = { timestamp: undefined, results: undefined };
 	}
 
+	resetFuzzily(resultKey) {
+		let self = this;
+		console.log("IN FunctionPromiseService resetFuzzily: " + Object.keys(self.results).length + " results")
+
+		let keys = Object.keys(self.results).filter((k) => k.startsWith(resultKey)).forEach((k2) => { 
+			self.results[k2] = undefined; 
+			self.promiseCache[k2] = { timestamp: undefined, results: undefined } 
+		})
+
+		console.log("AFTER FunctionPromiseService resetFuzzily: " + Object.keys(self.results).length + " results")
+	}
+
 	resetFunc(funcKey) {
 		this.funcs[funcKey] = undefined;
 	}
