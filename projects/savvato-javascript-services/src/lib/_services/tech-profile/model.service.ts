@@ -54,6 +54,13 @@ export class TechProfileModelService {
 
 	waitingPromise() {
 		let self = this;
+
+		// Is this working correctly? It just spins until the isTechProfileAvailable() returns true. 
+		//  shouldn't it initiate the call too? When code calls this method, is it not expecting that
+		//  calling this will begin the model creation process, rather than just waiting?
+		//
+		// See eog-mobile2/offer-model-service
+
 		return new Promise((resolve, reject) => {
 
 			function to() {
