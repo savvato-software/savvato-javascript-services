@@ -38,8 +38,7 @@ export class FunctionPromiseService {
 		let self = this;
 
 		let keys = Object.keys(self.results).filter((k) => k.startsWith(resultKey)).forEach((k2) => { 
-			self.results[k2] = undefined; 
-			self.promiseCache[k2] = { timestamp: undefined, results: undefined } 
+			self.reset(k2);
 		})
 	}
 
@@ -51,9 +50,9 @@ export class FunctionPromiseService {
 		Your function must:
 
 			return a promise
-				and that promise must resolve something other than [undefined | null]. If you are trying to respond with [undefined | null],
+				and that promise must resolve something other than [undefined | null | 0]. If you are trying to respond with something falsey,
 				you need to put your response in an object, liked this: {value: undefined}, and return the object. This is because the 
-				FunctionPromiseService takes an undefined to mean your function has not yet completed.	
+				FunctionPromiseService takes a false value to mean your function has not yet completed.	
 	*/
 	initFunc(funcKey, func) {
 
@@ -108,32 +107,40 @@ export class FunctionPromiseService {
 		if (self.results[resultKey] !== undefined) {
 			
 			if (self.results[resultKey]["timestamp"] + freshnessLength < timestamp) {
-				self.reset(resultKey);
+				if (self.results[resultKey]["staleResults"] === undefined) {
+					self.results[resultKey]["staleResults"] = self.results[resultKey]["results"];
+				 	// console.log("FPS: Saving some stale results for ", resultKey, funcKey, self.results[resultKey]["staleResults"])
+				}
 			} else {
 				return self.results[resultKey]["results"];
 			}
 		}
 
-		self.results[resultKey] = {timestamp: new Date().getTime(), results: undefined};
+		self.results[resultKey] = {...self.results[resultKey], ...{timestamp: new Date().getTime(), results: undefined}};
 
 		let func = self.funcs[funcKey];
 
 		if (func !== undefined) {
 			func(data).then(
 				(result) => { 
+					// if (self.results[resultKey]["staleResults"] !== undefined)
+						// console.log(resultKey, funcKey, " got new results. REPLACING STALE RESULTS with fresh ones!", result);
+
 					self.results[resultKey] = {timestamp: new Date().getTime(), results: result}; 
 				})
 		} else {
 			throw new Error("The given function key [" + funcKey + "] does not have a function associated with it.")
 		}
 
-		return self.results[resultKey]["results"];
+		if (self.results[resultKey]["staleResults"] !== undefined)
+			return self.results[resultKey]["staleResults"]
+		else
+			return self.results[resultKey]["results"];
 	}
 
 	promiseCache = { }
 	waitAndGet(resultKey, funcKey, data) {
 		let self = this;
-		let prm = undefined;
 
 		let timestamp = new Date().getTime();
 		let freshnessLength = self.getFreshnessLengthInMillis(data);
