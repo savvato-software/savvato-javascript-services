@@ -9,26 +9,26 @@ import { SequenceService } from './_services/sequence.service'
 
 @NgModule({
   declarations: [
-  	SavvatoJavascriptServicesComponent
+    SavvatoJavascriptServicesComponent
   ],
   imports: [
-  	
+
   ],
   exports: [
-  	SavvatoJavascriptServicesComponent,
+    SavvatoJavascriptServicesComponent,
   ]
 })
-export class SavvatoJavascriptServicesModule { 
-	static forRoot(): ModuleWithProviders {
-		return {
-			ngModule: SavvatoJavascriptServicesModule,
-			providers: [ 
+export class SavvatoJavascriptServicesModule {
+  static forRoot(): ModuleWithProviders<NgModule> {
+    return {
+      ngModule: SavvatoJavascriptServicesModule,
+      providers: [
         ApiService,
         CareerGoalService,
         FunctionPromiseService,
         ModelTransformingService,
         SequenceService
       ]
-		}
-	}
+    }
+  }
 }

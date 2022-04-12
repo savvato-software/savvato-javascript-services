@@ -7,13 +7,14 @@ import { Component, OnInit } from '@angular/core';
       savvato-javascript-services works!
     </p>
   `,
-  styles: []
+  styles: [
+  ]
 })
 export class SavvatoJavascriptServicesComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
+  ngOnInit(): void {
   }
 
 }

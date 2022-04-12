@@ -25,7 +25,7 @@ export class TechProfileModelService {
 	}
 
 	// This service is initialized two different ways.. By _init(), which calls the API directly,
-	//  and setProviderForTechProfile, which uses a passed-in function from a third party. 
+	//  and setProviderForTechProfile, which uses a passed-in function from a third party.
 
 	_init(force?: boolean) {
 		let self = this;
@@ -41,7 +41,7 @@ export class TechProfileModelService {
 			self._techProfileAPI.get(1).then((tp) => {
 				self.techProfile = tp;
 
-				if (self.resetCalculatedStuffCallback) 
+				if (self.resetCalculatedStuffCallback)
 					self.resetCalculatedStuffCallback();
 			})
 		}
@@ -55,13 +55,13 @@ export class TechProfileModelService {
 	waitingPromise() {
 		let self = this;
 
-		// Is this working correctly? It just spins until the isTechProfileAvailable() returns true. 
+		// Is this working correctly? It just spins until the isTechProfileAvailable() returns true.
 		//  shouldn't it initiate the call too? When code calls this method, is it not expecting that
 		//  calling this will begin the model creation process, rather than just waiting?
 		//
 		// See eog-mobile2/offer-model-service
 
-		return new Promise((resolve, reject) => {
+		return new Promise<void>((resolve, reject) => {
 
 			function to() {
 				setTimeout(() => {
@@ -87,7 +87,7 @@ export class TechProfileModelService {
 	getName() {
 		let model = this.getModel();
 
-		if (model) 
+		if (model)
 			return model['name']
 		else
 			return undefined;
@@ -122,7 +122,7 @@ export class TechProfileModelService {
 			if (topic)
 				rtn = this._sequenceService.isAbleToMove(this.techProfile["topics"], topic, -1);
 		}
-	
+
 		return rtn;
 	}
 
@@ -165,7 +165,7 @@ export class TechProfileModelService {
 
 		let lineItem = topic && topic["lineItems"] && topic["lineItems"].find((li) => { return li['id'] === lineItemId });
 
-		if (lineItem) 
+		if (lineItem)
 			return this._sequenceService.isAbleToMove(topic["lineItems"], lineItem, 1)
 
 		return false;
@@ -239,25 +239,32 @@ export class TechProfileModelService {
 
 	updateTechProfileTopic(topic) {
 		let self = this;
+    let rtn = undefined;
 		if (topic.id !== -1) {
-			return self._techProfileAPI.updateTopic(topic).then(() => self._init(true));
+      rtn = self._techProfileAPI.updateTopic(topic).then(() => self._init(true));
 		} else {
 			console.error("A topic with no backend id was passed to updateTechProfileTopic.");
 		}
+
+    return rtn;
 	}
 
 	updateTechProfileLineItem(lineItem) {
 		let self = this;
+    let rtn = undefined;
+
 		if (lineItem.id !== -1) {
-			return self._techProfileAPI.updateLineItemWithDescriptions(lineItem).then(() => self._init(true));
+			rtn = self._techProfileAPI.updateLineItemWithDescriptions(lineItem).then(() => self._init(true));
 		} else {
 			console.error("A lineItem with no backend id was passed to updateTechProfileLineItem.");
 		}
+
+    return rtn;
 	}
 
 	addTopic(name) {
 		let self = this;
-		return new Promise((resolve, reject) => {
+		return new Promise<void>((resolve, reject) => {
 			self._techProfileAPI.addTopic(name).then(() => {
 				self._init(true);
 
@@ -268,7 +275,7 @@ export class TechProfileModelService {
 
 	addLineItem(parentTopicId, lineItemName) {
 		let self = this;
-		return new Promise((resolve, reject) => {
+		return new Promise<void>((resolve, reject) => {
 			self._techProfileAPI.addLineItem(parentTopicId, lineItemName).then(() => {
 				self._init(true);
 
@@ -279,7 +286,7 @@ export class TechProfileModelService {
 
 	addExistingLineItem(parentTopicId, lineItemId) {
 		let self = this;
-		return new Promise((resolve, reject) => {
+		return new Promise<void>((resolve, reject) => {
 			self._techProfileAPI.addExistingLineItem(parentTopicId, lineItemId).then(() => {
 				self._init(true);
 
@@ -287,10 +294,10 @@ export class TechProfileModelService {
 			})
 		})
 	}
-	
+
 	deleteExistingLineItem(parentTopicId, lineItemId) {
 		let self = this;
-		return new Promise((resolve, reject) => {
+		return new Promise<void>((resolve, reject) => {
 			self._techProfileAPI.deleteExistingLineItem(parentTopicId, lineItemId).then(() => {
 				self._init(true);
 
@@ -298,5 +305,5 @@ export class TechProfileModelService {
 			})
 		})
 	}
-	
+
 }
