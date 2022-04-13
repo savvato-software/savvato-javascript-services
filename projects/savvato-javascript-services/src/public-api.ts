@@ -14,3 +14,8 @@ export * from './lib/_services/sequence.service';
 
 export * from './lib/_services/tech-profile/api.service';
 export * from './lib/_services/tech-profile/model.service';
+
+export * from './lib/_services/api/api.service';
+export * from './lib/_services/auth/auth.service';
+export * from './lib/_services/storage/storage.service';
+export * from './lib/_services/login/login.service';
