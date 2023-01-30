@@ -4,7 +4,7 @@
   "compilerOptions": {
       "strict": false,
     "outDir": "../../out-tsc/lib",
-    "target": "es2015",
+    "target": "es2020",
     "declaration": true,
     "declarationMap": true,
     "inlineSources": true,
