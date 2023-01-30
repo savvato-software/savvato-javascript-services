@@ -68,6 +68,16 @@ The file will be named
     Notice the question mark in the path, you'd replace it with your version number.
 
 ----
+PUBLISHING A NEW VERSION
+
+    First login to npm with 'npm login'.
+    Run the command above to build the library.
+    From the root of the library, 'cd dist/savvato-javascript-services && npm publish --dry-run'.
+    Be sure the output of the dry run is referring to the correct version and code you just built.
+    Run 'npm publish' when you are all sure.
+
+    If you mess up, just release another version. But don't mess up.
+
 
 Troubleshooting:
     is the service you added to this library not available in your client?
