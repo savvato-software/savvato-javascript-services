@@ -1,44 +1,3 @@
-In order to work on and contribute to this project, you will need to fork all Savvato repositories to your
-github account. You will also need angular-cli, and the ionic framework to be globally installed on your
-system.
-
-Before cloning your forked copies of the repositories, it would be best to create a bit of file structure.
-Somewhere on your development machine, create a savvato directory. Inside of your savvato directory, create
-a src directory. Inside of your src directory, create a second savvato directory. Inside of that savvato
-directory, create a second src directory. Finally, inside of that src directory, create an angular directory.
-With that accomplished, you should have a file structure that looks like the following:
-
-savvato
-    -src
-        -savvato
-            -src
-                -angular
-
-Inside of the angular directory, clone the savvato-javascript-services and techprofile-component repositories.
-Inside of the top level src directory, clone the dtim-techprofile-api, dtim-mobile, and savvato-techprofile-
-website repositories.
-
-Finally you should have a file stucture like the following:
-
-savvato
-    -src
-        -dtim-mobile
-        -dtim-techprofile-api
-        -savvato
-            -src
-                -angular
-                    -savvato-javascript-services
-                    -techprofile-component
-        -savvato-techprofile-website
-
-In order to get the project running, it is recommended to begin by building the savvato-javascript-services,
-and techprofile-component first, then create your MySQL database, followed by starting up the dtim-techprofile-api,
-and finally serving up the dtim-mobile and/or savvato-techprofile-website. The instructions for the setup of
-these specific parts will be included in each of their DEVELOPER files.
-
-For this component of the project, create a new dev branch.
-You will then need to build a release.
-
 
 BUILDING A RELEASE
 ---
@@ -58,14 +17,13 @@ Here's that command in one big line, if you're feeling frisky.
 This will create a file, which you will have to refer to in the package.json of any other project that will make use of savvato-javascript-services. Likely, this is already done for you. If you are just setting up your projects, don't worry about that. However, if you're reading this once you're comfortable with the code, and you've made a change to this repo, then you will need to know about this file, and that you may need to create a new version, and refer to that new version, in the other project. This is to avoid caching issues that prevent you from seeing your changes in the other project.
 
 The file will be named
-    ./savvato-javascript-services/dist/savvato-javascript-services/savvato-javascript-services-0.0.?.tgz
+    ./savvato-javascript-services/dist/savvato-javascript-services/savvato-software-savvato-javascript-services-0.0.?.tgz
 
-    If it is already depended on by the other project, just change its version number to use your new changes.
+    INSTALL IN THE CLIENT PROJECT:
+      npm remove @savvato-software/savvato-javascript-services
+      npm install ../savvato-javascript-services/dist/savvato-javascript-services/savvato-software-savvato-javascript-services-0.0.?.tgz
 
-    If it is not yet depended on by the other project, run this command to add it as a dependency
-        npm install ./path/to/./savvato-javascript-services/dist/savvato-javascript-services/savvato-javascript-services-0.0.?.tgz
-
-    Notice the question mark in the path, you'd replace it with your version number.
+      Notice the question mark in the path, you'd replace it with your version number.
 
 ----
 PUBLISHING A NEW VERSION
@@ -82,4 +40,4 @@ PUBLISHING A NEW VERSION
 Troubleshooting:
     is the service you added to this library not available in your client?
         - did you add it to public_api.ts?
-        
+
