@@ -116,17 +116,17 @@ export class FunctionPromiseService {
 			}
 		}
 
-		self.results[resultKey] = {...self.results[resultKey], ...{timestamp: new Date().getTime(), results: undefined}};
+    self.results[resultKey] = { timestamp: Date.now(), results: undefined };
 
 		let func = self.funcs[funcKey];
 
 		if (func !== undefined) {
 			func(data).then(
-				(result) => { 
+				(result) => {
 					// if (self.results[resultKey]["staleResults"] !== undefined)
 						// console.log(resultKey, funcKey, " got new results. REPLACING STALE RESULTS with fresh ones!", result);
 
-					self.results[resultKey] = {timestamp: new Date().getTime(), results: result}; 
+					self.results[resultKey] = {timestamp: Date.now(), results: result};
 				})
 		} else {
 			throw new Error("The given function key [" + funcKey + "] does not have a function associated with it.")
