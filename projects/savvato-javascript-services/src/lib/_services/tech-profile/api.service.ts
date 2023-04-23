@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ApiService } from '../api.service'
+import { JWTApiService } from '../../_services/api/api.service'
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +8,7 @@ export class TechProfileAPIService {
 
   environment = undefined;
 
-  constructor(private _apiService: ApiService) {
+  constructor(private _apiService: JWTApiService) {
 
   }
 
