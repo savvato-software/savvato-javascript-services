@@ -5,10 +5,10 @@ import { Injectable } from '@angular/core';
 })
 export class SequenceService {
 
-  /** 
-      Given a list of objects with a 'sequence' attribute, that is properly maintained so that the range 
+  /**
+      Given a list of objects with a 'sequence' attribute, that is properly maintained so that the range
       starts at 1, and there are no gaps, this service will move the elements forward or back.
-      
+
   **/
 
 	list = undefined;
@@ -21,7 +21,7 @@ export class SequenceService {
 
   constructor() { }
 
-  moveSequenceByOne(list, obj, direction) {
+  moveSequenceByOne(list, objToMove, direction) {
     if (direction !== this.FORWARD && direction !== this.BACKWARD)
       throw new Error("Invalid value for 'direction' parameter");
 
@@ -29,20 +29,20 @@ export class SequenceService {
 
     if (direction == this.FORWARD) {
       // moving to a higher sequence
-      let follower = list.find((e) => { return e['sequence'] === obj['sequence'] + 1 })
+      let follower = list.find((e) => { return e['sequence'] === objToMove['sequence'] + 1 })
 
       if (follower) {
-        this.swapSequenceNumbers(follower, obj)
+        this.swapSequenceNumbers(follower, objToMove)
       }
     } else {
-      let predecessor = list.find((e) => { return e["sequence"] === (obj["sequence"] - 1); })
+      let predecessor = list.find((e) => { return e["sequence"] === (objToMove["sequence"] - 1); })
 
       if (predecessor) {
-        this.swapSequenceNumbers(predecessor, obj);
+        this.swapSequenceNumbers(predecessor, objToMove);
       }
     }
 
-  	return obj;
+  	return objToMove;
   }
 
   swapSequenceNumbers(obj1, obj2) {
@@ -51,7 +51,7 @@ export class SequenceService {
     obj2["sequence"] = tmp;
   }
 
-  isAbleToMove(list, obj, direction) {
+  isAbleToMove(list, objToMove, direction) {
     if (direction !== this.FORWARD && direction !== this.BACKWARD)
       throw new Error("Invalid value for 'direction' parameter");
 
@@ -62,9 +62,9 @@ export class SequenceService {
 
   	if (direction == this.FORWARD) {
   		// moving to a higher sequence
-      return obj['sequence'] + direction <= lastObj['sequence']
+      return objToMove['sequence'] + direction <= lastObj['sequence']
   	} else {
-  		return obj['sequence'] + direction > 0
+  		return objToMove['sequence'] + direction > 0
   	}
   }
 }
