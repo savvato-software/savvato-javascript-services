@@ -24,7 +24,7 @@ export class JWTApiService {
     return this._http.get(url);
   }
 
-  post(url: string, data: any) {
+  post(url: string, data: object) {
 
     let httpHeaders = new HttpHeaders()
       .set("Authorization", "Bearer " + this._authService.getToken());
@@ -42,7 +42,7 @@ export class JWTApiService {
     return this._http.post(url, data, { headers: httpHeaders, observe: "response"});
   }
 
-  put(url: string, data: any) {
+  put(url: string, data: object) {
 
     let httpHeaders = new HttpHeaders()
       .set("Authorization", "Bearer " + this._authService.getToken());
@@ -53,7 +53,7 @@ export class JWTApiService {
     return this._http.put(url, data, { headers: httpHeaders });
   }
 
-  delete(url: string, data: any) {
+  delete(url: string, data: object) {
     let httpHeaders = new HttpHeaders()
       .set("Authorization", "Bearer " + this._authService.getToken());
 
@@ -62,5 +62,4 @@ export class JWTApiService {
 
     return this._http.delete(url, { headers: httpHeaders, body: data });
   }
-
 }
