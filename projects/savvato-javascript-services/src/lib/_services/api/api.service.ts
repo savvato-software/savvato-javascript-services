@@ -42,6 +42,13 @@ export class JWTApiService {
     return this._http.post(url, data, { headers: httpHeaders, observe: "response"});
   }
 
+  putUnsecuredAPI_w_body(url: string, data: object) {
+    let httpHeaders: HttpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
+
+    console.log("URL " + url);
+    return this._http.put(url, data, { headers: httpHeaders, observe: "response"});
+  }
+
   put(url: string, data: object) {
 
     let httpHeaders = new HttpHeaders()
