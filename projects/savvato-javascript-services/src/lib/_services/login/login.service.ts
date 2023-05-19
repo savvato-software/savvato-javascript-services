@@ -14,13 +14,6 @@ export class LoginService {
 
   }
 
-  login2(environment: any, email: string, password: string) {
-    return new Promise((res, rej) => {
-      console.log("%%%%%%%%%%%%%%%%%%%")
-      res(true);
-    })
-  }
-
   login(environment: any, email: string, password: string) {
     let self = this;
     let data = {email: email, password: password}
@@ -30,7 +23,7 @@ export class LoginService {
           .subscribe({next: (response) => {
             let o : any = response.body;
 
-            self._authService.setUser(new User(o['id'], o['name'], o['password'], o['phone'], o['email']))
+            self._authService.setUser(new User(o['id'], o['name'], o['password'], o['phone'], o['email'], o['roles']))
             self._authService.setToken(response.headers.get('Authorization') || '')
 
             resolve(response);

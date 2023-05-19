@@ -13,7 +13,7 @@ const { AUTH_TOKEN, AUTH_USER } = StorageKey;
 export class AuthService  {
     redirectUrl = '';
 
-    model = {user: new User(-1, '', '', '', ''), jwt: ''};
+    model = {user: new User(-1, '', '', '', '', []), jwt: ''};
 
     constructor(private storage: StorageService) {
         this.model['jwt'] = this.storage.read(AUTH_TOKEN) || '';
