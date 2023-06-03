@@ -1,3 +1,3 @@
 #!/bin/bash
 
-    cd projects/savvato-javascript-services/ && npm version patch && cd - && rm dist/ -rf && ng build savvato-javascript-services && cd dist/savvato-javascript-services/ && npm pack && cd - && date
+ rm dist/ -rf && ng build savvato-javascript-services && cd projects/savvato-javascript-services/ && npm version patch && cd - && cd dist/savvato-javascript-services/ && npm pack && cd - && date
