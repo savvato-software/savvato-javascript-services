@@ -14,3 +14,5 @@ find . \( -path "./node_modules" -prune \) -o \( -path "./projects/*" -name "pac
 rm dist/ -rf && cd projects/savvato-javascript-services/ && npm version patch && cd - && ng build savvato-javascript-services && cd dist/savvato-javascript-services/ && npm pack && cd - && date
 
 cd ~/src/savvato-javascript-services/ && cd dist/savvato-javascript-services && npm publish
+
+git commit projects/savvato-javascript-services/package.json -m "Bumped version number"
