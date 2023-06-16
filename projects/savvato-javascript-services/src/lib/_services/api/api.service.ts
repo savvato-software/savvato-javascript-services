@@ -13,60 +13,55 @@ export class JWTApiService {
 
   }
 
-  get(url: string) {
-    let httpHeaders = new HttpHeaders()
-      .set("Authorization", "Bearer " + this._authService.getToken());
+  getHeaders(auth: boolean = true) {
+    let rtn = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Access-Control-Allow-Origin', '*')
+      .set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE')
+      .set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
 
-    return this._http.get(url, { headers: httpHeaders });
+    if (auth)
+      rtn.set("Authorization", "Bearer " + this._authService.getToken());
+
+    return rtn;
+  }
+
+  get(url: string) {
+    return this._http.get(url, { headers: this.getHeaders()});
   }
 
   getUnsecuredAPI(url: string) {
-    return this._http.get(url);
+    return this.get(url)
   }
 
   post(url: string, data: object) {
-
-    let httpHeaders = new HttpHeaders()
-      .set("Authorization", "Bearer " + this._authService.getToken());
-
     if (!data['userId'])
       data['userId'] = this._authService.getUser()['id'];
 
-    return this._http.post(url, data, { headers: httpHeaders });
+    return this._http.post(url, data, { headers: this.getHeaders() });
   }
 
   postUnsecuredAPI_w_body(url: string, data: object) {
-    let httpHeaders: HttpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
-
     console.log("URL " + url);
-    return this._http.post(url, data, { headers: httpHeaders, observe: "response"});
+    return this._http.post(url, data, { headers: this.getHeaders(false), observe: "response"});
   }
 
   putUnsecuredAPI_w_body(url: string, data: object) {
-    let httpHeaders: HttpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
-
     console.log("URL " + url);
-    return this._http.put(url, data, { headers: httpHeaders, observe: "response"});
+    return this._http.put(url, data, { headers: this.getHeaders(false), observe: "response"});
   }
 
   put(url: string, data: object) {
-
-    let httpHeaders = new HttpHeaders()
-      .set("Authorization", "Bearer " + this._authService.getToken());
-
     if (!data['userId'])
       data['userId'] = this._authService.getUser()['id'];
 
-    return this._http.put(url, data, { headers: httpHeaders });
+    return this._http.put(url, data, { headers: this.getHeaders()});
   }
 
   delete(url: string, data: object) {
-    let httpHeaders = new HttpHeaders()
-      .set("Authorization", "Bearer " + this._authService.getToken());
-
     if (!data['userId'])
       data['userId'] = this._authService.getUser()['id'];
 
-    return this._http.delete(url, { headers: httpHeaders, body: data });
+    return this._http.delete(url, { headers: this.getHeaders(), body: data });
   }
 }
