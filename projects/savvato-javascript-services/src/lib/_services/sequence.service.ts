@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
 
+export interface Sequenceable {
+  sequence: number;
+};
+
 @Injectable({
   providedIn: 'root'
 })
@@ -21,7 +25,7 @@ export class SequenceService {
 
   constructor() { }
 
-  moveSequenceByOne(list, objToMove, direction) {
+  moveSequenceByOne(list: Sequenceable[], objToMove: Sequenceable, direction: number) {
     if (direction !== this.FORWARD && direction !== this.BACKWARD)
       throw new Error("Invalid value for 'direction' parameter");
 
@@ -45,13 +49,13 @@ export class SequenceService {
   	return objToMove;
   }
 
-  swapSequenceNumbers(obj1, obj2) {
+  swapSequenceNumbers(obj1: Sequenceable, obj2: Sequenceable) {
     let tmp = obj1["sequence"];
     obj1["sequence"] = obj2["sequence"];
     obj2["sequence"] = tmp;
   }
 
-  isAbleToMove(list, objToMove, direction) {
+  isAbleToMove(list: Sequenceable[], objToMove: Sequenceable, direction: number) {
     if (direction !== this.FORWARD && direction !== this.BACKWARD)
       throw new Error("Invalid value for 'direction' parameter");
 
@@ -60,11 +64,15 @@ export class SequenceService {
 
   	let lastObj = list.find((o) => o['sequence'] === max);
 
-  	if (direction == this.FORWARD) {
-  		// moving to a higher sequence
-      return objToMove['sequence'] + direction <= lastObj['sequence']
-  	} else {
-  		return objToMove['sequence'] + direction > 0
-  	}
+    if (lastObj) {
+      if (direction == this.FORWARD) {
+        // moving to a higher sequence
+        return objToMove['sequence'] + direction <= lastObj['sequence']
+      } else {
+        return objToMove['sequence'] + direction > 0
+      }
+    }
+
+    throw new Error("Unable to find last object in list");
   }
 }
