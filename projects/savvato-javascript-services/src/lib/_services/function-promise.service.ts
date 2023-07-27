@@ -87,8 +87,8 @@ export class FunctionPromiseService {
 		resolves to the result of the function call.
 	**/
 	get(resultKey, funcKey, data) {
-		var timestamp = new Date().getTime();
-		let self = this;
+		const timestamp = new Date().getTime();
+		const self = this;
 
 		/**
 			You can pass 'freshnessLengthInMillis' in the data object
