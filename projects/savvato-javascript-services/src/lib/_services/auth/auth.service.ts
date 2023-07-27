@@ -24,6 +24,10 @@ export class AuthService  {
         this.redirectUrl = v;
     }
 
+    public hasRole(role: string): boolean {
+      return (this.model['user']['roles'].map(r => r['name']).includes(role));
+    }
+
     public setUser(user: User) {
         this.model['user'] = user;
         this.storage.save(AUTH_USER, user);
