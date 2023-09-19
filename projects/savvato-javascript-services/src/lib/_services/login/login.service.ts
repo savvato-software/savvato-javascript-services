@@ -23,7 +23,7 @@ export class LoginService {
           .subscribe({next: (response) => {
             let o : any = response.body;
 
-            self._authService.setUser(new User(o['id'], o['name'], o['password'], o['phone'], o['email'], o['roles']))
+            self._authService.setUser(new User(o['id'], o['name'], o['password'], o['phone'], o['email'], o['roles'], o['lastLoginTimeInMillis']))
             self._authService.setToken(response.headers.get('Authorization') || '')
 
             resolve(response);
