@@ -18,7 +18,7 @@ export class ModelTransformingService {
 
 				if (model['userId'] === currentUser['id']) {
 
-					// call an api. set the results in the model 
+					// call an api. set the results in the model
 
 					this._pointsService.getCurrentUserPointsAsSum().then((pts) => {
 						model["points"]["total"] = pts;
@@ -36,7 +36,7 @@ export class ModelTransformingService {
 		// ** END EXAMPLE TRANSFORMER **
 
 
-		then call transform(), passing in your model, to fire all the 
+		then call transform(), passing in your model, to fire all the
 		transformers off.
 	*/
 
@@ -53,12 +53,13 @@ export class ModelTransformingService {
 		this.activeCount = 0;
 	}
 
-	addTransformer(func) {
+	addTransformer(func: (model: any, fin: Function) => void) {
 		this.transformers.push(func);
 	}
 
 	clearAllTransformers() {
 		this.transformers = [];
+    this.transformPromise = undefined;
 		// reset(); ?
 	}
 
