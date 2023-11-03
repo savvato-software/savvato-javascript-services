@@ -90,6 +90,11 @@ export class FunctionPromiseService {
 		const timestamp = new Date().getTime();
 		const self = this;
 
+    if (data['clearCacheFirst']) {
+      data['clearCacheFirst'] = false;
+      self.reset(resultKey);
+    }
+
 		/**
 			You can pass 'freshnessLengthInMillis' in the data object
 			to set a specific limit for this call. So, if the default
@@ -130,6 +135,9 @@ export class FunctionPromiseService {
 
   waitUntilAvailable(resultKey, funcKey, data) {
 		let self = this;
+
+    if (data['clearCacheFirst'])
+      self.reset(resultKey);
 
 		let timestamp = new Date().getTime();
 		let freshnessLength = self.getFreshnessLengthInMillis(data);
