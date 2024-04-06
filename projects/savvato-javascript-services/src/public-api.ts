@@ -14,3 +14,6 @@ export * from './lib/_services/api/api.service';
 export * from './lib/_services/auth/auth.service';
 export * from './lib/_services/storage/storage.service';
 export * from './lib/_services/login/login.service';
+
+export * from './lib/_models/user';
+export * from './lib/_models/user-role';
