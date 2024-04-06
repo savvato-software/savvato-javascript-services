@@ -1,0 +1,1 @@
+0.0.64 - Changed the User type to define 'roles' as an array of UserRole objects, rather than a string array as previously.
