@@ -1,9 +1,9 @@
 {
   "name": "@savvato-software/savvato-javascript-services",
-  "version": "0.0.66",
+  "version": "0.0.67",
   "peerDependencies": {
-    "@angular/common": "^16.0.0",
-    "@angular/core": "^16.0.0"
+    "@angular/common": "^17.3.3",
+    "@angular/core": "^17.3.3"
   },
   "dependencies": {
     "rxjs": "^7.5.5",
