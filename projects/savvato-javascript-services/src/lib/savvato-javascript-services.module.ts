@@ -6,7 +6,7 @@ import { ModelTransformingService } from './_services/model-transforming.service
 import { SequenceService } from './_services/sequence.service'
 import { StorageService} from "./_services/storage/storage.service";
 import { JWTApiService } from "./_services/api/api.service";
-import {HttpClientModule} from "@angular/common/http";
+import {} from "@angular/common/http";
 
 @NgModule({
   declarations: [

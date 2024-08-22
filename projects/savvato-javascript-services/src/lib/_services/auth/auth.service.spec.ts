@@ -2,7 +2,8 @@ import { TestBed, async } from '@angular/core/testing';
 
 import { AuthService } from './auth.service';
 import { StorageService } from '../core/services/storage/storage.service';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 class MockStorageService {
     read() {
@@ -24,12 +25,14 @@ describe('AuthService', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [HttpClientTestingModule],
-            providers: [
-                { provide: StorageService, useClass: MockStorageService },
-                AuthService,
-            ],
-        });
+    imports: [],
+    providers: [
+        { provide: StorageService, useClass: MockStorageService },
+        AuthService,
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+    ]
+});
         authService = TestBed.get(AuthService);
         storageService = TestBed.get(StorageService);
     }));
