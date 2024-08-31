@@ -73,6 +73,6 @@ export class SequenceService {
       }
     }
 
-    throw new Error("Unable to find last object in list");
+    throw new Error("Unable to find last object in list. " + objToMove.hasOwnProperty('sequence') ? "" : "Object to move does not have a 'sequence' attribute.");
   }
 }
