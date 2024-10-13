@@ -20,6 +20,13 @@ import { Injectable } from '@angular/core';
 })
 export class FunctionPromiseService {
 
+	/*
+	* NOTE: Deprecated!
+	*
+	* This class is deprecated. It is replaced by the FunctionService class.
+	*
+	* */
+
 	results = {};
 	funcs = {};
 
