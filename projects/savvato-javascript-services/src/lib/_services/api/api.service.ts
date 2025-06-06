@@ -21,7 +21,7 @@ export class JWTApiService {
       .set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
 
     if (auth)
-      rtn.set("Authorization", "Bearer " + this._authService.getToken());
+      rtn = rtn.set("Authorization", "Bearer " + this._authService.getToken());
 
     return rtn;
   }
