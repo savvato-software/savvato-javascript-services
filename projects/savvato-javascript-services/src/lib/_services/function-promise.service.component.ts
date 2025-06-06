@@ -8,8 +8,9 @@ import { FunctionPromiseService } from './function-promise.service';
 
 
 @Component({
-  selector: 'functionpromiseservicecomponent',
-  template: `<div></div>`
+    selector: 'functionpromiseservicecomponent',
+    template: `<div></div>`,
+    standalone: false
 })
 export class FunctionPromiseServiceComponent {
 	constructor(private srvc: FunctionPromiseService) {

@@ -7,8 +7,9 @@ import { ModelTransformingService } from './model-transforming.service';
 
 
 @Component({
-  selector: 'modeltransformingservicecomponent',
-  template: `<div></div>`
+    selector: 'modeltransformingservicecomponent',
+    template: `<div></div>`,
+    standalone: false
 })
 export class ModelTransformingServiceComponent {
 	constructor(private srvc: ModelTransformingService) {
