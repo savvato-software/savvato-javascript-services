@@ -17,7 +17,8 @@ export class StorageService {
     }
 
     public read(key: StorageKey): any {
-        return JSON.parse(this.storage.getItem(key)!);
+        const item = this.storage.getItem(key);
+        return item ? JSON.parse(item) : null;
     }
 
     public remove(key: StorageKey) {
