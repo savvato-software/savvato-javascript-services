@@ -75,4 +75,44 @@ export class SequenceService {
 
     throw new Error("Unable to find last object in list. " + objToMove.hasOwnProperty('sequence') ? "" : "Object to move does not have a 'sequence' attribute.");
   }
+
+    /**
+     * Updates sequence numbers based on moving an item from one index to another.
+     * Does not reorder the array itself—clients should sort by 'sequence' afterward.
+     */
+    reorderSequence(list: Sequenceable[], fromIndex: number, toIndex: number): Sequenceable[] {
+        if (fromIndex < 0 || fromIndex >= list.length ||
+            toIndex < 0 || toIndex >= list.length) {
+            throw new Error(`Invalid fromIndex (${fromIndex}) or toIndex (${toIndex}).`);
+        }
+
+        const movedItem = list[toIndex];
+        const oldSeq = movedItem.sequence;
+        const newSeq = toIndex + 1;
+
+        if (newSeq === oldSeq) {
+            return list;
+        }
+
+        // Shift other items' sequences
+        list.forEach(item => {
+            if (item === movedItem) {
+                return;
+            }
+            if (newSeq > oldSeq) {
+                // moving down: decrement sequences between oldSeq+1 .. newSeq
+                if (item.sequence > oldSeq && item.sequence <= newSeq) {
+                    item.sequence = item.sequence - 1;
+                }
+            } else {
+                // moving up: increment sequences between newSeq .. oldSeq-1
+                if (item.sequence >= newSeq && item.sequence < oldSeq) {
+                    item.sequence = item.sequence + 1;
+                }
+            }
+        });
+
+        movedItem.sequence = newSeq;
+        return list;
+    }
 }
